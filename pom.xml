@@ -30,7 +30,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        App
+                                        ParserTest
                                     </mainClass>
                                 </manifest>
                             </archive>
