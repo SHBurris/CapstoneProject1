@@ -12,6 +12,8 @@
         <maven.compiler.release>11</maven.compiler.release>
     </properties>
     <build>
+        <sourceDirectory>src/main/java/cs4263/oucapstone/app</sourceDirectory>
+        <testSourceDirectory>src/test/java/cs4263/oucapstone/app</testSourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
