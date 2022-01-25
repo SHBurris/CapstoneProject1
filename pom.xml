@@ -37,7 +37,7 @@
                 </dependencies>
                 <configuration>
                     <excludes>
-                         <exclude>ParserTest.java</exclude>
+                         <exclude>**/ParserTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
