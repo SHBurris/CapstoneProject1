@@ -1,55 +1,55 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Parser {
-    static ArrayList<String> enArray;
-    static ArrayList<String> esArray;
-
-    // Method to determine if a character belongs to a language we have.
-    public static Boolean isLang(String character) {
-        if (enArray.contains(character) || esArray.contains(character)) {
-            return true;
-        }
-        return false;
+    private static ArrayList<String> enArray;
+    private static ArrayList<String> esArray;
+    static {
+        esArray = parseCSV("spanish.csv");
+        enArray = parseCSV("english.csv");
     }
 
     // Method to read a CSV file into an ArrayList
-    public static ArrayList<String> parseCSV(String filename) {
-
-        var scannerIn = new Scanner(System.in);
-        var csvArray = new ArrayList<String>();
+    private static ArrayList<String> parseCSV(String filename) {
+        ArrayList<String> characters = new ArrayList<String>();
 
         try {
-            // Read the CSV file into an array
-            var fileScanner = new Scanner(new File(filename));
-            fileScanner.useDelimiter(",");
-            while (fileScanner.hasNext()) {
-                csvArray.add(fileScanner.next());
+            Scanner sc = new Scanner(new File(filename));
+            sc.useDelimiter(",");
+            try {
+                while (sc.hasNext()) {
+                    characters.add(sc.next().toLowerCase());
+                }
+            } catch (Exception e) {
+                System.out.println("Error: No clue man, you really screwed up. I only read characters.");
+            } finally {
+                sc.close();
             }
-            fileScanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("The file does not exist!!!");
-        } finally {
-            // Close the scanners
-            scannerIn.close();
+            System.out.println("The file '" + filename + "' was not found in " +
+                    "Working Directory '" + System.getProperty("user.dir") + "'");
         }
 
-        return csvArray;
+        return characters;
+    }
+
+    // Method to determine if a character belongs to a language we have.
+    public static Boolean isLang(String character) {
+        return enArray.contains(character.toLowerCase()) || esArray.contains(character.toLowerCase());
+    }
+
+    // Method determines if an ArrayList of characters
+    public static boolean checkAll(List<String> characters) {
+        boolean yn = true;
+        for (String c : characters)
+            if (!isLang(c))
+                yn = false;
+        return yn;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        esArray = parseCSV("../spanish.csv");
-        enArray = parseCSV("../english.csv");
-        var inputArray = parseCSV("../input.csv");
-
-        Boolean yesno = true;
-        for (String c : inputArray) {
-            if (!isLang(c)) {
-                yesno = false;
-            }
-        }
-
-        System.out.println("" + yesno);
+        System.out.println(checkAll(parseCSV("input.csv")));
     }
 }
